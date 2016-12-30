@@ -18,10 +18,15 @@ function spark:onPurge()
 end
 
 function spark.mt:init()
-	
+	self.wait = math.random()*(self.waitTime or 5)
+
 end
 
 function spark.mt:update(dt)
+	if self.wait>0 then
+		self.wait = self.wait-dt
+		return
+	end
 	self.dy = self.dy-self.rise*dt
 
 	local disp = self.x-600/2
@@ -31,9 +36,12 @@ function spark.mt:update(dt)
 	self.y = self.y+self.dy*dt
 end
 
-function spark.mt:draw()
-	local len = 0.015
-	love.graphics.setLineWidth(2)
+function spark.mt:draw(width)
+	if self.wait>0 then
+		return
+	end
+	local len = 0.01
+	love.graphics.setLineWidth(width or 2)
 	love.graphics.setColor(self.r,self.g,self.b, self.a)
 	love.graphics.line(self.x-self.dx*len,self.y-self.dy*len,self.x+self.dx*len,self.y+self.dy*len)
 end

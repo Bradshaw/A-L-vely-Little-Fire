@@ -43,8 +43,9 @@ function state:enter( pre )
 	local scale = love.window.getPixelScale()
 	highlight = love.graphics.newCanvas(600*scale, 600*scale)
 	love.graphics.setBackgroundColor(col.r, col.g, col.b)
-	for i = 1,15 do
-		local c = 255
+	for i = 1,100 do
+		local c = math.random()
+		c = c*c*c
 		local speed = math.random(0,500)
 		local a = math.random()*math.tau
 		spark.new({
@@ -53,28 +54,29 @@ function state:enter( pre )
 			y = 3*600/4+math.cos(a)*50-50,
 			rise = 200,
 			dx = math.cos(a)*speed,
-			dy = math.sin(a)*speed,
+			dy = -math.abs(math.sin(a)*speed),
 			push = 100,
 			pull = math.random(5,10),
 			fric = math.random(0.01,0.5),
 			fade = math.random()*0.1,
-			r = 255,
-			g = math.random(64,255),
+			r = 255*c,
+			g = math.random(64,255)*c,
 			b = 0,
 			a = 0
 		})
 	end
-	for i = 1,15 do
+	for i = 1,20 do
 		local c = 255
 		local speed = math.random(0,250)
 		local a = math.random()*math.tau
 		spark.new({
+			waitTime = 40,
 			fore = false,
 			x = 600/2+math.sin(a)*50,
 			y = 3*600/4+math.cos(a)*50-50,
 			rise = 500,
 			dx = math.cos(a)*speed,
-			dy = math.sin(a)*speed,
+			dy = -math.abs(math.sin(a)*speed),
 			push = 100,
 			pull = math.random(5,10),
 			fric = math.random(0.01,0.5),
@@ -106,7 +108,7 @@ function state:update(dt)
 	else 
 		dt = math.min(dt,1/30)
 	end
-	faya.map.update(dt*2)
+	faya.map.update(dt*1.75)
 	spark.map.update(dt*2)
 	faya.bubble()
 end
@@ -149,6 +151,11 @@ function state:draw()
 	love.graphics.setColor(255,255,255)
 	love.graphics.setBlendMode("alpha")
 	faya.map.draw(true, 0)
+	
+	love.graphics.setBlendMode("add")
+	love.graphics.setColor(255,255,255,255)
+	spark.map.draw()
+	spark.map.draw()
 	spark.map.draw()
 
 
