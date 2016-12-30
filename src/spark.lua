@@ -32,9 +32,10 @@ function spark.mt:update(dt)
 end
 
 function spark.mt:draw()
-	love.graphics.setLineWidth(3)
+	local len = 0.015
+	love.graphics.setLineWidth(2)
 	love.graphics.setColor(self.r,self.g,self.b, self.a)
-	love.graphics.line(self.x,self.y,self.x+self.dx*0.02,self.y+self.dy*0.02)
+	love.graphics.line(self.x-self.dx*len,self.y-self.dy*len,self.x+self.dx*len,self.y+self.dy*len)
 end
 
 return spark

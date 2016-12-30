@@ -1,4 +1,7 @@
-
+math.randomseed(os.time())
+for _=1,1000 do
+	math.random()
+end
 
 function love.load(arg)
 

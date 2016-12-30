@@ -139,4 +139,26 @@ function useful.copy(elem)
 	end
 end
 
+function useful.merge(to, from, clobber)
+	local insert = function(tab, key, elem)
+		if type(elem)=="table" then
+			if not tab[key] then
+				tab[key]={}
+			end
+			useful.merge(tab[key], elem, clobber)
+		else
+			tab[key]=elem
+		end
+	end
+	for k, v in pairs(from) do
+		if to[k] then
+			if clobber then
+				insert(to, k, v)
+			end
+		else
+			insert(to, k, v)
+		end
+	end
+end
+
 return useful

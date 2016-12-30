@@ -15,176 +15,25 @@ end
 
 function segzero()
 	for i = 1,400 do
-		local c = math.random()*math.random()
-		c=c*c*c
-		local speed = math.random(0,100)
-		local a = math.random()*math.tau
-		faya.new({
-			fore = false,
-			seg = 0,
-			x = 600/2,
-			y = 3*600/4+50,
-			ax = 600/2,
-			ay = 3*600/4,
-			ar = -10000,
-			rise = 100,
-			grow = 500,
-			dx = math.cos(a)*speed*2,
-			dy = math.sin(a)*speed,
-			push = 0,
-			pull = 1+math.random()*2,
-			fric = math.random(0.3,0.5),
-			radius = 1,
-			maxradius = 75,
-			fade = 0,--math.random()*2,
-			r = 255,
-			g = 63+64*c,
-			b = 0,
-			a = 255
-		})
+		faya.new({generator="body"})
 	end
 	for i = 1,200 do
-		local c = 0
-		local speed = math.random(10,1000)
-		local dx = math.random()>0.5 and speed or -speed
-		faya.new({
-			fore = true,
-			seg = 0,
-			x = 600/2+dx/10,
-			y = 3*600/4+400,
-			ax = 600/2,
-			ay = 3*600/4+10,
-			ar = 150,
-			rise = math.random(100,200),
-			dx = dx,
-			dy = 0,
-			fade = 0,
-			grow = math.random(3,10),
-			push = 5,
-			pull = 1+math.random(),
-			fric = math.random(1,1.5),
-			radius = 100,
-			maxradius = 100,
-			r = col.r,
-			g = col.g,
-			b = col.b,
-			a = 255
-		})
+		faya.new({generator="bodyMask"})
 	end
 	for i = 1,200 do
-		local c = 0
-		local speed = math.random(10,100)
-		local dx = math.random()>0.5 and speed or -speed
-		faya.new({
-			fore = true,
-			seg = 0,
-			x = 600/2+dx/10,
-			y = 3*600/4+185,
-			ax = 600/2,
-			ay = 3*600/4+60,
-			ar = 120,
-			rise = math.random(100,200),
-			dx = dx,
-			dy = 0,
-			fade = 0,
-			grow = math.random(3,10),
-			push = 5,
-			pull = 1+math.random(),
-			fric = math.random(1,1.5),
-			radius = 10+math.random(20),
-			maxradius = 150,
-			r = col.r,
-			g = col.g,
-			b = col.b,
-			a = 255
-		})
+		faya.new({generator="bodyMaskLarge"})
 	end
 end
 
 function segone()
-	for i = 1,200 do
-		local c = math.random()
-		local speed = math.random(0,100)
-		local a = math.random()*math.tau
-		faya.new({
-			fore = false,
-			seg = 1,
-			x = 600/2,
-			y = 3*600/4+50,
-			ax = 600/2,
-			ay = 3*600/4,
-			ar = -10000,
-			rise = 100,
-			grow = 500,
-			dx = math.cos(a)*speed*2,
-			dy = math.sin(a)*speed,
-			push = 0,
-			pull = 1+math.random()*2,
-			fric = math.random(0.3,0.5),
-			radius = 1,
-			maxradius = 75,
-			fade = 0,--math.random()*2,
-			r = 255*c,
-			g = 255*c,
-			b = 255*c,
-			a = 255
-		})
+	for i = 1,400 do
+		faya.new({generator="highlight"})
 	end
 	for i = 1,100 do
-		local c = 0
-		local speed = math.random(10,1000)
-		local dx = math.random()>0.5 and speed or -speed
-		faya.new({
-			fore = true,
-			seg = 1,
-			x = 600/2+dx/10,
-			y = 3*600/4+350,
-			ax = 600/2,
-			ay = 3*600/4+10,
-			ar = 100,
-			rise = math.random(100,200),
-			dx = dx,
-			dy = 0,
-			fade = 0,
-			grow = math.random(3,10),
-			push = 5,
-			pull = 1+math.random(),
-			fric = math.random(1,1.5),
-			radius = 100,
-			maxradius = 100,
-			r = 0,
-			g = 0,
-			b = 0,
-			a = 255
-		})
+		faya.new({generator="highlightMask"})
 	end
 	for i = 1,100 do
-		local c = 0
-		local speed = math.random(10,100)
-		local dx = math.random()>0.5 and speed or -speed
-		faya.new({
-			fore = true,
-			seg = 1,
-			x = 600/2+dx/10,
-			y = 3*600/4+125,
-			ax = 600/2,
-			ay = 3*600/4+60,
-			ar = 60,
-			rise = math.random(100,200),
-			dx = dx,
-			dy = 0,
-			fade = 0,
-			grow = math.random(3,10),
-			push = 5,
-			pull = 1+math.random(),
-			fric = math.random(1,1.5),
-			radius = 10+math.random(20),
-			maxradius = 100,
-			r = 0,
-			g = 0,
-			b = 0,
-			a = 255
-		})
+		faya.new({generator="highlightMaskLarge"})
 	end
 end
 
@@ -239,7 +88,7 @@ function state:enter( pre )
 	segzero()
 	segone()
 	faya.sort()
-	for _=1,300 do
+	for _=1,600 do
 		local dt = 1/30
 		faya.map.update(dt)
 		spark.map.update(dt)
@@ -292,7 +141,7 @@ function state:draw()
 	faya.map.draw(false, 0)
 	love.graphics.origin()
 	love.graphics.setBlendMode("add")
-	love.graphics.setColor(255,255,0,92)
+	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(highlight)
 	love.graphics.setColor(255,255,255)
 	love.graphics.scale(scale)
