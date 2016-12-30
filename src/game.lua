@@ -4,12 +4,13 @@ local state = {}
 
 function state:init()
 	faya.map.hello()
+	gifit = 0
+	sidestime = 2+math.random()*10
 	col = {
-		r = 16,
-		g = 24,
+		r = pink and 0 or 16,
+		g = pink and 16 or 24,
 		b = 24
 	}
-	gifit = 0
 end
 
 
@@ -108,8 +109,29 @@ function state:update(dt)
 	else 
 		dt = math.min(dt,1/30)
 	end
-	faya.map.update(dt*1.75)
-	spark.map.update(dt*2)
+	sidestime = sidestime - dt
+	if sidestime<0.2 then
+		edgelord = glitchy and true or edgelord
+		pink = glitchy and true or pink
+		psides()
+	end
+	if sidestime<0 then
+		if math.random()>0.95 then
+			glitchy = not glitchy
+		end
+		if glitchy then
+			reroll()
+		end
+		sidestime = 2+math.random()*10
+	end
+	pinkness = useful.lerp(pinkness,pink and 1 or 0, 2*dt)
+	col = {
+		r = useful.lerp(16,0,pinkness),
+		g = useful.lerp(24,16,pinkness),
+		b = 24
+	}
+	faya.map.update(dt*(slowmo and 0.5 or 1.75))
+	spark.map.update(dt*(slowmo and 0.5 or 2))
 	faya.bubble()
 end
 
@@ -166,7 +188,6 @@ function state:draw()
 
 	sh:prep()
 	sh:blur(0.07)
-	--sh:invert()
 	sh:release()
 
 	love.graphics.setColor(255,255,255,48)

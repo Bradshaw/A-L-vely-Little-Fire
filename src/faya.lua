@@ -70,12 +70,16 @@ function faya.mt:update(dt)
 end
 
 function faya.mt:draw(fore, seg)
+	local p = (pink and (not fore) and pinkness or 0)
+	local r = self.fore and (seg==0 and col.r or 0) or self.r
+	local g = self.fore and (seg==0 and col.g or 0) or useful.lerp(self.g,self.b,p)
+	local b = self.fore and (seg==0 and col.b or 0) or useful.lerp(self.b,self.g,p)
 	if self.fore==fore and self.seg==seg then
 		if self.fadeIn then
 			local alpha = math.max(0,math.min(1,self.age*self.fadeIn))
-			love.graphics.setColor(self.r,self.g,self.b, self.a*alpha)
+			love.graphics.setColor(r,g,b, self.a*alpha)
 		else
-			love.graphics.setColor(self.r,self.g,self.b, self.a)
+			love.graphics.setColor(r,g,b, self.a)
 		end
 		love.graphics.circle("fill",self.x,self.y,self.radius)
 		if false and self.fore then
@@ -85,6 +89,7 @@ function faya.mt:draw(fore, seg)
 		end
 	end
 end
+
 
 function generators.highlight()
 	local c = math.random()

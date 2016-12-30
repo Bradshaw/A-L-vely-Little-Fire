@@ -42,7 +42,7 @@ function spark.mt:draw(width)
 	end
 	local len = 0.01
 	love.graphics.setLineWidth(width or 2)
-	love.graphics.setColor(self.r,self.g,self.b, self.a)
+	love.graphics.setColor(self.r,useful.lerp(self.g,self.b,pinkness),useful.lerp(self.b,self.g,pinkness), self.a)
 	love.graphics.line(self.x-self.dx*len,self.y-self.dy*len,self.x+self.dx*len,self.y+self.dy*len)
 end
 
