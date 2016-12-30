@@ -1,25 +1,6 @@
-solid.lua
+A Lövely Little Fire
 =========
 
-Attempt at a crappy frameworky thingy for Löve2d
+## A virtual fireplace to keep you warm
 
-
-Needz
------
-
-> Generic way of dealing with timestepped physics
-> Animation package that can use spritesheets or named pngs
-
-
-
-Conventions and system
-----------------------
-
-If this is going to be useful for other projects, then I need to be consistent.
-
-
-
-
-
-solidstepper
-------------
+I was on a train and wanted to try out this Dreamworks trick I saw once
