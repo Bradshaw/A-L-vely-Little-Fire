@@ -41,9 +41,8 @@ end
 
 
 function state:enter( pre )
-	sh = diplodocus.shade()
 	local scale = love.window.getPixelScale()
-	highlight = love.graphics.newCanvas(600*scale, 600*scale)
+	sh = diplodocus.shade(love.graphics.newCanvas(600*scale, 600*scale))
 	love.graphics.setBackgroundColor(col.r, col.g, col.b)
 	for i = 1,100 do
 		local c = math.random()
@@ -148,42 +147,32 @@ function state:draw()
 	love.graphics.scale(scale)
 	love.graphics.translate(300,500)
 
-
-	love.graphics.setCanvas(highlight)
-	
-
-
-	love.graphics.setColor(0,0,0)
+	love.graphics.setColor(col.r, col.g, col.b)
 	love.graphics.rectangle("fill",-1000,-1000,2000,2000)
-
-	faya.map.draw(false, 1)
-	faya.map.draw(true, 1)
-
-	love.graphics.setCanvas()
 
 	sh:setTarget()
 
 
-	love.graphics.setColor(col.r, col.g, col.b)
-	love.graphics.rectangle("fill",-1000,-1000,2000,2000)
-
-
-	faya.map.draw(false, 0)
-	love.graphics.origin()
-	love.graphics.setBlendMode("add")
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(highlight)
-	love.graphics.setColor(255,255,255)
-	love.graphics.scale(scale)
-	love.graphics.translate(300,500)
-	love.graphics.setColor(255,255,255)
 	love.graphics.setBlendMode("alpha")
-	faya.map.draw(true, 0)
+	love.graphics.setColor(255,255,255)
+	spark.map.draw()
+	spark.map.draw()
+	spark.map.draw()
+
+
+	love.graphics.setBlendMode("alpha")
+	love.graphics.stencil(function()
+		faya.map.stencil(true, 0)
+	end, "replace", 1)
+	love.graphics.setStencilTest("lequal", 0)
+	faya.map.draw(false, 0)
+	love.graphics.stencil(function()
+		faya.map.stencil(true, 1)
+	end, "replace", 1, true)
 	love.graphics.setBlendMode("add")
-	love.graphics.setColor(255,255,255,255)
-	spark.map.draw()
-	spark.map.draw()
-	spark.map.draw()
+	faya.map.draw(false, 1)
+	love.graphics.setStencilTest()
+
 	if friend then
 		skulhed()
 	end
@@ -196,14 +185,14 @@ function state:draw()
 	love.graphics.setBlendMode("alpha")
 
 	sh:pushToScreen()
-
 	sh:prep()
 	sh:blur(0.07)
 	sh:release()
 
-	love.graphics.setColor(255,255,255,48)
+	love.graphics.setColor(255,255,255,64)
 	love.graphics.setBlendMode("add")
 	sh:pushToScreen()
+	spark.map.draw()
 
 	if gifit>0 then
 		local screenshot = love.graphics.newScreenshot();

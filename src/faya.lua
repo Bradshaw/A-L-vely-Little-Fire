@@ -71,6 +71,12 @@ function faya.mt:update(dt)
 	self.y = self.y+self.dy*dt
 end
 
+function faya.mt:stencil(fore, seg)
+	if self.fore==fore and self.seg==seg then
+		love.graphics.circle("fill",self.x,self.y,self.radius)
+	end
+end
+
 function faya.mt:draw(fore, seg)
 	local p = (pink and (not fore) and pinkness or 0)
 	local r = self.fore and (seg==0 and col.r or 0) or self.r
@@ -119,7 +125,7 @@ function generators.highlight()
 		r = 255*c,
 		g = 255*c,
 		b = 255*c*math.random()*0.25,
-		a = 255
+		a = 127
 	}
 end
 function generators.highlightMask()
