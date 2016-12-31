@@ -5,12 +5,14 @@ end
 
 glitchy = math.random()>0.95
 function reroll()
+	friend = math.random()>0.95
 	slowmo = math.random()>(glitchy and 0.75 or 0.95)
 	pink = math.random()>(glitchy and 0.75 or 0.95)
 	edgelord = math.random()>(glitchy and 0.75 or 0.95)
 end
 reroll()
 pinkness = pink and 1 or 0
+slowness = slowmo and 1 or 0
 function psides()
 	csides = math.random(2,4)*2
 end

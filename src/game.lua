@@ -11,6 +11,7 @@ function state:init()
 		g = pink and 16 or 24,
 		b = 24
 	}
+	blinkin = 2
 end
 
 
@@ -104,6 +105,10 @@ end
 
 
 function state:update(dt)
+	blinkin = blinkin-dt
+	if (blinkin<0) then
+		blinkin = math.random()*6
+	end
 	if gifit>0 then
 		dt = 1/30
 	else 
@@ -125,13 +130,14 @@ function state:update(dt)
 		sidestime = 2+math.random()*10
 	end
 	pinkness = useful.lerp(pinkness,pink and 1 or 0, 2*dt)
+	slowness = useful.lerp(slowness,slowmo and 1 or 0, 2*dt)
 	col = {
 		r = useful.lerp(16,0,pinkness),
 		g = useful.lerp(24,16,pinkness),
 		b = 24
 	}
-	faya.map.update(dt*(slowmo and 0.5 or 1.75))
-	spark.map.update(dt*(slowmo and 0.5 or 2))
+	faya.map.update(dt*useful.lerp(1.75,0.5,slowness))
+	spark.map.update(dt*useful.lerp(2,0.5,slowness))
 	faya.bubble()
 end
 
@@ -173,12 +179,17 @@ function state:draw()
 	love.graphics.setColor(255,255,255)
 	love.graphics.setBlendMode("alpha")
 	faya.map.draw(true, 0)
-	
 	love.graphics.setBlendMode("add")
 	love.graphics.setColor(255,255,255,255)
 	spark.map.draw()
 	spark.map.draw()
 	spark.map.draw()
+	if friend then
+		skulhed()
+	end
+
+
+
 
 
 	love.graphics.setColor(255,255,255)
@@ -200,6 +211,34 @@ function state:draw()
 		gifit = gifit - 1
 	end
 
+end
+
+function skulhed()
+	local xoff = math.sin(love.timer.getTime()*3)*10
+	local yoff = math.sin(love.timer.getTime()*2)*10
+	love.graphics.setBlendMode("alpha")
+	local intense = 127+math.sin(love.timer.getTime()*1.5)*64
+	love.graphics.setColor(255,useful.lerp(intense,0,pinkness),useful.lerp(0,intense,pinkness),255)
+	love.graphics.circle("fill",300+xoff,470+yoff,100+math.sin(love.timer.getTime()*2.5)*5)
+	love.graphics.setColor(255,255,196,255)
+	love.graphics.circle("fill",300+xoff,470+yoff,85)
+	yoff = math.sin(love.timer.getTime()*2-1)*10
+	if blinkin>0.07 then
+		love.graphics.setColor(196,160,160)
+		love.graphics.circle("fill",260+xoff,497+yoff,20)
+		love.graphics.circle("fill",340+xoff,497+yoff,20)
+		love.graphics.setColor(0,0,0)
+		love.graphics.circle("fill",260+xoff,490+yoff,20)
+		love.graphics.circle("fill",340+xoff,490+yoff,20)
+	else
+		love.graphics.setLineWidth(3)
+		love.graphics.setColor(0,0,0)
+		local eyewidth = 24
+		love.graphics.line(260+xoff+eyewidth,490+yoff,260+xoff-eyewidth,490+yoff)
+		love.graphics.line(340+xoff+eyewidth,490+yoff,340+xoff-eyewidth,490+yoff)
+	end
+	yoff = math.sin(love.timer.getTime()*2-1)*7
+	love.graphics.line(300+xoff+20,525+yoff,300+xoff-20,525+yoff)
 end
 
 

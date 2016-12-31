@@ -3,10 +3,12 @@ local generators = {}
 
 function faya.compare(a, b)
 	if a.fore == b.fore then
-		if a.g==b.g then
+		local acol = a.r+a.g+a.b
+		local bcol = b.r+b.g+b.b
+		if acol==bcol then
 			return a.y<b.y
 		else
-			return a.g<b.g
+			return acol<bcol
 		end
 	else
 		return b.fore
@@ -63,8 +65,8 @@ function faya.mt:update(dt)
 		self.radius = math.min(self.maxradius,math.max(0,self.radius + self.grow * dt))
 	end
 	--self.r = self.r-self.r*self.fade*dt
-	self.g = self.g-self.g*self.fade*dt
-	self.b = self.b-self.b*self.fade*dt
+	self.g = math.max(1,self.g-self.g*self.fade*dt)
+	self.b = math.max(1,self.b-self.b*self.fade*dt)
 	self.x = self.x+self.dx*dt
 	self.y = self.y+self.dy*dt
 end
